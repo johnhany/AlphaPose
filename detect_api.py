@@ -22,9 +22,9 @@ from .pPose_nms import pose_nms, write_json
 
 args = opt
 args.dataset = 'coco'
-# if not args.sp:
-#     torch.multiprocessing.set_start_method('forkserver', force=True)
-#     torch.multiprocessing.set_sharing_strategy('file_system')
+if not args.sp:
+    torch.multiprocessing.set_start_method('forkserver', force=True)
+    torch.multiprocessing.set_sharing_strategy('file_system')
 
 def detect(img_files,
            yolo_cfg="./yolo/cfg/yolov3-spp.cfg",
@@ -34,8 +34,6 @@ def detect(img_files,
            pose_batch=80,
            profile=False,
            fast_inference=True):
-    torch.multiprocessing.set_start_method('forkserver', force=True)
-    torch.multiprocessing.set_sharing_strategy('file_system')
 
     # Load input images
     data_loader = ImageLoader(img_files, batchSize=batch_size, format='yolo').start()
