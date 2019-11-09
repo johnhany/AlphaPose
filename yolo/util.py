@@ -9,9 +9,9 @@ import numpy as np
 import cv2 
 import matplotlib.pyplot as plt
 try:
-    from bbox import bbox_iou
+    from .bbox import bbox_iou
 except ImportError:
-    from yolo.bbox import bbox_iou
+    from ..yolo.bbox import bbox_iou
 
 
 def count_parameters(model):
