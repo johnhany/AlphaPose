@@ -13,9 +13,17 @@ train_sppe/person_keypoints_val2014.json
 ssd/examples
 images
 
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*.py[cod]
+*/*.py[cod]
+*/*/*.py[cod]
+*/*/*/*.py[cod]
+
 *.npy
 *.so
-*.pyc
 .ipynb_checkpoints
 */.ipynb_checkpoints/
 */.tensorboard/*
