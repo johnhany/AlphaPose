@@ -60,18 +60,18 @@ def detect(img_files,
         'pn': []
     }
 
-    bodies = []
+    # Init data writer
+    writer = DataWriter(args.save_video).start()
 
     data_len = data_loader.length()
     im_names_desc = tqdm(range(data_len))
 
     for i in im_names_desc:
         start_time = getTime()
-        body = []
         with torch.no_grad():
             (inps, orig_img, im_name, boxes, scores, pt1, pt2) = det_processor.read()
             if boxes is None or boxes.nelement() == 0:
-                body.append((None, None, None, None, None, orig_img, im_name.split('/')[-1]))
+                writer.save(None, None, None, None, None, orig_img, im_name.split('/')[-1])
                 continue
 
             ckpt_time, det_time = getTime(start_time)
@@ -92,7 +92,7 @@ def detect(img_files,
             ckpt_time, pose_time = getTime(ckpt_time)
             runtime_profile['pt'].append(pose_time)
             hm = hm.cpu()
-            body.append((boxes, scores, hm, pt1, pt2, orig_img, im_name.split('/')[-1]))
+            writer.save(boxes, scores, hm, pt1, pt2, orig_img, im_name.split('/')[-1])
 
             ckpt_time, post_time = getTime(ckpt_time)
             runtime_profile['pn'].append(post_time)
@@ -103,6 +103,10 @@ def detect(img_files,
             'det time: {dt:.3f} | pose time: {pt:.2f} | post processing: {pn:.4f}'.format(
                 dt=np.mean(runtime_profile['dt']), pt=np.mean(runtime_profile['pt']), pn=np.mean(runtime_profile['pn']))
             )
-        bodies.append(body)
+
     print('===========================> Finish Model Running.')
-    return bodies
+    while(writer.running()):
+        pass
+    writer.stop()
+    final_result = writer.results()
+    return final_result
