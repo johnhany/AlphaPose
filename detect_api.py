@@ -39,7 +39,7 @@ def detect(img_files,
     data_loader = ImageLoader(img_files, batchSize=batch_size, format='yolo').start()
 
     # Load detection loader
-    print('Loading YOLO model..')
+    # print('Loading YOLO model..')
     sys.stdout.flush()
     det_loader = DetectionLoader(data_loader, batchSize=batch_size,
                                  yolo_cfg=yolo_cfg, yolo_path=yolo_path).start()
@@ -104,7 +104,7 @@ def detect(img_files,
                 dt=np.mean(runtime_profile['dt']), pt=np.mean(runtime_profile['pt']), pn=np.mean(runtime_profile['pn']))
             )
 
-    print('===========================> Finish Model Running.')
+    # print('===========================> Finish Model Running.')
     while(writer.running()):
         pass
     writer.stop()
