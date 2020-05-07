@@ -64,7 +64,10 @@ def detect(img_files,
     writer = DataWriter(args.save_video).start()
 
     data_len = data_loader.length()
-    im_names_desc = tqdm(range(data_len))
+    if profile:
+        im_names_desc = tqdm(range(data_len))
+    else:
+        im_names_desc = range(data_len)
 
     for i in im_names_desc:
         start_time = getTime()

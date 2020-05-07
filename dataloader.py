@@ -657,6 +657,11 @@ class DataWriter:
                             cv2.imwrite(os.path.join(opt.outputpath, 'vis', im_name), img)
                         if opt.save_video:
                             self.stream.write(img)
+                    result = {
+                        'imgname': im_name,
+                        'result': None
+                    }
+                    self.final_result.append(result)
                 else:
                     # location prediction (n, kp, 2) | score prediction (n, kp, 1)
                     if opt.matching:
